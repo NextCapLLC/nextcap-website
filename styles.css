@@ -165,8 +165,7 @@ button, input, select, textarea { font: inherit; }
   .topbar .container { justify-content: center; text-align: center; }
   .mobile-toggle { display: inline-flex; align-items: center; gap: .4rem; }
   .navbar { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(5,6,7,.98); }
-  .navlinks { display: none; position: fixed; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: rgba(5,6,7,.98); padding: .5rem 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.15); box-shadow: 0 8px 24px rgba(0,0,0,.5); z-index: 99; }
-  .navlinks.open { display: flex; }
+.navlinks { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: rgba(5,6,7,.98); padding: .5rem 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.15); box-shadow: 0 8px 24px rgba(0,0,0,.5); z-index: 99; }  .navlinks.open { display: flex; }
   .navlinks a, .navlinks .btn { width: 100%; padding: .8rem 1rem; border-radius: 12px; box-sizing: border-box; }
   .navlinks .btn { margin-left: 0; margin-top: .3rem; }
   .hero { padding: 4rem 0 3rem; }
