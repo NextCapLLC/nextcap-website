@@ -35,8 +35,7 @@ button, input, select, textarea { font: inherit; }
 .navrow { display: flex; align-items: center; justify-content: space-between; padding: .95rem 0; gap: 1rem; }
 .brand { display: inline-flex; align-items: center; gap: .8rem; font-weight: 900; letter-spacing: .11em; color: #fff; text-transform: uppercase; }
 .brand .mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: linear-gradient(135deg, var(--red), #3e0204); box-shadow: 0 8px 20px rgba(182,26,32,.35); }
-.navlinks { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; color: #e8e8e8; }.navlinks a { padding: .35rem .2rem; }
-.navlinks a:hover, .navlinks a.active { color: #fff; }
+.navlinks { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; color: #e8e8e8; }.navlinks a:hover, .navlinks a.active { color: #fff; }
 .navlinks .btn { margin-left: .2rem; }
 .mobile-toggle { display: none; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); color: #fff; padding: .6rem .8rem; border-radius: 999px; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .9rem 1.2rem; border-radius: 999px; font-weight: 800; border: 1px solid transparent; transition: background .2s ease, border-color .2s ease; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
