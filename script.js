@@ -56,4 +56,50 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', update);
     update();
   });
+
+  // Estimate modal
+  (function(){
+    var modal = document.createElement('div');
+    modal.id = 'estimate-modal';
+    modal.setAttribute('role','dialog');
+    modal.setAttribute('aria-modal','true');
+    modal.setAttribute('aria-label','Request a free estimate');
+    modal.innerHTML = [
+      '<div class="modal-backdrop"></div>',
+      '<div class="modal-box">',
+      '<button class="modal-close" aria-label="Close">&times;</button>',
+      '<h2>Get a Free Estimate</h2>',
+      '<p>Tell us about your project and we\'ll follow up quickly.</p>',
+      '<form class="form" data-demo>',
+      '<div class="grid two">',
+      '<div><label for="m-name">Full name</label><input id="m-name" name="name" placeholder="Your name" required></div>',
+      '<div><label for="m-phone">Phone number</label><input id="m-phone" name="phone" placeholder="(304) 555-1234" required></div>',
+      '</div>',
+      '<div class="grid two">',
+      '<div><label for="m-email">Email address</label><input id="m-email" name="email" type="email" placeholder="you@example.com" required></div>',
+      '<div><label for="m-service">Service type</label>',
+      '<select id="m-service" name="service">',
+      '<option>Roofing</option><option>Painting</option><option>Siding / Exterior</option>',
+      '<option>Decks / Patios</option><option>Additions</option><option>Repairs / Maintenance</option>',
+      '</select></div>',
+      '</div>',
+      '<div><label for="m-address">Project address</label><input id="m-address" name="address" placeholder="Street, city, state"></div>',
+      '<div style="margin-top:.9rem;"><label for="m-details">Project details</label>',
+      '<textarea id="m-details" name="details" placeholder="Tell us about the scope, timeline, and any photos you would like to share."></textarea></div>',
+      '<p class="note">Photo uploads can be shared by email after submission.</p>',
+      '<button class="btn btn-primary" type="submit">Send Estimate Request</button>',
+      '</form></div>'
+    ].join('');
+    document.body.appendChild(modal);
+    function openModal(){modal.classList.add('open');document.body.classList.add('modal-open');}
+    function closeModal(){modal.classList.remove('open');document.body.classList.remove('modal-open');}
+    modal.querySelector('.modal-backdrop').addEventListener('click',closeModal);
+    modal.querySelector('.modal-close').addEventListener('click',closeModal);
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+    document.addEventListener('click',function(e){
+      var link=e.target.closest('a[href="estimate.html"]');
+      if(link&&!window.location.pathname.endsWith('estimate.html')){e.preventDefault();openModal();}
+    });
+  })();
+
 });
