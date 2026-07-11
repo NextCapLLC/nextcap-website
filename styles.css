@@ -40,11 +40,14 @@ button, input, select, textarea { font: inherit; }
 .navlinks a:hover, .navlinks a.active { color: #fff; }
 .navlinks .btn { margin-left: .2rem; }
 .mobile-toggle { display: none; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); color: #fff; padding: .6rem .8rem; border-radius: 999px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .9rem 1.2rem; border-radius: 999px; font-weight: 800; border: 1px solid transparent; transition: transform .2s ease, background .2s ease, border-color .2s ease; cursor: pointer; }
-.btn:hover { transform: translateY(-1px); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .9rem 1.2rem; border-radius: 999px; font-weight: 800; border: 1px solid transparent; transition: background .2s ease, border-color .2s ease; cursor: pointer; touch-action: manipulation; }
 .btn-primary { background: var(--red); color: #fff; box-shadow: 0 14px 30px rgba(182,26,32,.28); }
-.btn-primary:hover { background: var(--red-dark); }
 .btn-outline { color: var(--charcoal); background: #fff; border-color: #dfe0e3; }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--red-dark); }
+  .portfolio-card:hover { transform: translateY(-2px); }
+}
 .hero {
   position: relative;
   padding: 5.5rem 0 4.5rem;
@@ -126,11 +129,10 @@ button, input, select, textarea { font: inherit; }
 .testimonial-card p { font-size: 1rem; margin-bottom: .8rem; }
 .testimonial-card strong { color: var(--charcoal); }
 .filter-bar { display: flex; flex-wrap: wrap; gap: .65rem; margin: 1.2rem 0 1.4rem; }
-.filter-btn { border: 1px solid #d7d7d7; background: #fff; color: var(--charcoal); padding: .7rem 1rem; border-radius: 999px; font-weight: 700; cursor: pointer; }
+.filter-btn { border: 1px solid #d7d7d7; background: #fff; color: var(--charcoal); padding: .7rem 1rem; border-radius: 999px; font-weight: 700; cursor: pointer; touch-action: manipulation; }
 .filter-btn.active, .filter-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
 .portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .portfolio-card { background: #fff; border: 1px solid #e6e6e6; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: transform .2s ease; }
-.portfolio-card:hover { transform: translateY(-2px); }
 .portfolio-card.hide { display: none; }
 .portfolio-card img { width: 100%; height: 200px; object-fit: cover; }
 .portfolio-card .content { padding: 1rem 1.05rem 1.15rem; }
