@@ -4,12 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (menuButton && nav) {
     menuButton.addEventListener('click', () => {
       const open = nav.classList.toggle('open');
+      if (open) {
+        const rect = menuButton.closest('header').getBoundingClientRect();
+        nav.style.top = rect.bottom + 'px';
+      } else {
+        nav.style.top = '';
+      }
       menuButton.setAttribute('aria-expanded', String(open));
       menuButton.textContent = open ? '× Close' : '☰ Menu';
     });
     nav.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');
+        nav.style.top = '';
         menuButton.setAttribute('aria-expanded', 'false');
         menuButton.textContent = '☰ Menu';
       });
