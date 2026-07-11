@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.addEventListener('DOMContentLoaded', () => {
   const _nb = document.querySelector('.navbar'); if (_nb) document.documentElement.style.setProperty('--nav-top', _nb.offsetHeight + 'px');  const menuButton = document.querySelector('.mobile-toggle');
   const nav = document.querySelector('.navlinks');
   if (menuButton && nav) {
