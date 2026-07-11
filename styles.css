@@ -132,7 +132,7 @@ button, input, select, textarea { font: inherit; }
 .filter-btn { border: 1px solid #d7d7d7; background: #fff; color: var(--charcoal); padding: .7rem 1rem; border-radius: 999px; font-weight: 700; cursor: pointer; touch-action: manipulation; }
 .filter-btn.active, .filter-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
 .portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-.portfolio-card { background: #fff; border: 1px solid #e6e6e6; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: transform .2s ease; }
+.portfolio-card { background: #fff; border: 1px solid #e6e6e6; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
 .portfolio-card.hide { display: none; }
 .portfolio-card img { width: 100%; height: 200px; object-fit: cover; }
 .portfolio-card .content { padding: 1rem 1.05rem 1.15rem; }
@@ -165,12 +165,11 @@ button, input, select, textarea { font: inherit; }
 @media (max-width: 860px) {
   .topbar .container { justify-content: center; text-align: center; }
   .mobile-toggle { display: inline-flex; align-items: center; gap: .4rem; }
-  .navbar { position: sticky; }
-  .navrow { position: relative; }
-  .navlinks { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: .1rem; background: rgba(5,6,7,.98); padding: .7rem 1rem 1rem; border-top: 1px solid rgba(255,255,255,.12); z-index: 200; border-radius: 0 0 16px 16px; }
+  .navrow { flex-wrap: wrap; }
+  .navlinks { display: none; flex-direction: column; align-items: stretch; gap: 0; width: 100%; padding: .5rem 0 1rem; }
   .navlinks.open { display: flex; }
-  .navlinks a, .navlinks .btn { width: 100%; padding: .8rem 1rem; border-radius: 12px; }
-  .navlinks .btn { margin-left: 0; }
+  .navlinks a, .navlinks .btn { width: 100%; padding: .8rem 1rem; border-radius: 12px; box-sizing: border-box; }
+  .navlinks .btn { margin-left: 0; margin-top: .3rem; }
   .hero { padding: 4rem 0 3rem; }
   .preview-card img { height: 180px; }
   .portfolio-card img { height: 180px; }
