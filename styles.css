@@ -143,7 +143,7 @@ button, input, select, textarea { font: inherit; }
 .form textarea { min-height: 130px; resize: vertical; }
 .form .note { color: var(--muted); font-size: .94rem; margin-top: .8rem; }
 .contact-card { display: grid; gap: 1rem; }
-.contact-card a { color: var(--red); font-weight: 700; }
+.contact-card a:not(.btn) { color: var(--red); font-weight: 700; }
 .footer { background: #060708; color: #e7e7e7; padding: 3rem 0 1.5rem; }
 .footer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.4rem; }
 .footer h4 { margin-top: 0; color: #fff; }
