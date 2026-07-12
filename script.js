@@ -17,15 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.querySelectorAll('form[data-demo]').forEach((form) => {
-    form.addEventListener('submit', async (event) => {
+  function attachFormHandler(form) {
+    form.addEventListener('submit', async function(event) {
       event.preventDefault();
-      const btn = form.querySelector('[type="submit"]');
-      const originalText = btn.textContent;
+      var btn = form.querySelector('[type="submit"]');
+      var originalText = btn.textContent;
       btn.textContent = 'Sending...';
       btn.disabled = true;
+      var name = form.querySelector('[name=name]') ? form.querySelector('[name=name]').value : '';
+      var phone = form.querySelector('[name=phone]') ? form.querySelector('[name=phone]').value : '';
+      var email = form.querySelector('[name=email]') ? form.querySelector('[name=email]').value : '';
+      var service = form.querySelector('[name=service]') ? form.querySelector('[name=service]').value : 'General';
+      var address = form.querySelector('[name=address]') ? form.querySelector('[name=address]').value : '';
+      var details = form.querySelector('[name=details]') ? form.querySelector('[name=details]').value : '';
       try {
-        const [res] = await Promise.all([
+        var responses = await Promise.all([
           fetch('https://formspree.io/f/mlgqryqz', {
             method: 'POST',
             headers: { 'Accept': 'application/json' },
@@ -34,20 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
           fetch('/api/crm-lead', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: form.querySelector('[name=name]')?.value || '',
-              phone: form.querySelector('[name=phone]')?.value || '',
-              email: form.querySelector('[name=email]')?.value || '',
-              service: form.querySelector('[name=service]')?.value || 'General',
-              address: form.querySelector('[name=address]')?.value || '',
-              details: form.querySelector('[name=details]')?.value || ''
-            })
+            body: JSON.stringify({ name: name, phone: phone, email: email, service: service, address: address, details: details })
           }).catch(function(){})
         ]);
+        var res = responses[0];
         if (res.ok) {
           btn.textContent = 'Sent!';
           form.reset();
-          setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+          setTimeout(function() { btn.textContent = originalText; btn.disabled = false; }, 3000);
         } else {
           btn.textContent = 'Error — try again';
           btn.disabled = false;
@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = false;
       }
     });
-  });
+  }
+  document.querySelectorAll('form[data-demo]').forEach(function(form) { attachFormHandler(form); });
 
   const filters = [...document.querySelectorAll('.filter-btn')];
   const cards = [...document.querySelectorAll('.portfolio-card')];
@@ -125,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '</form></div>'
     ].join('');
     document.body.appendChild(modal);
+    attachFormHandler(modal.querySelector('form[data-demo]'));
     function openModal(){modal.classList.add('open');document.body.classList.add('modal-open');}
     function closeModal(){modal.classList.remove('open');document.body.classList.remove('modal-open');}
     modal.querySelector('.modal-backdrop').addEventListener('click',closeModal);
