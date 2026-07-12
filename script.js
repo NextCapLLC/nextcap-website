@@ -25,11 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = 'Sending...';
       btn.disabled = true;
       try {
-        const res = await fetch('https://formspree.io/f/mlgqryqz', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
-        });
+        const [res] = await Promise.all([
+          fetch('https://formspree.io/f/mlgqryqz', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form)
+          }),
+          fetch('', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: form.querySelector('[name=name]')?.value || '',
+              phone: form.querySelector('[name=phone]')?.value || '',
+              email: form.querySelector('[name=email]')?.value || '',
+              service: form.querySelector('[name=service]')?.value || 'General',
+              address: form.querySelector('[name=address]')?.value || '',
+              details: form.querySelector('[name=details]')?.value || ''
+            })
+          }).catch(() => {})
+        ]);
         if (res.ok) {
           btn.textContent = 'Sent!';
           form.reset();
