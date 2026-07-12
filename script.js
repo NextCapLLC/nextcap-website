@@ -1,3 +1,44 @@
+(function() {
+  function handleEstimateSubmit(event) {
+    var form = event.target;
+    if (!form || !form.hasAttribute || !form.hasAttribute('data-demo')) return;
+    event.preventDefault();
+    event.stopPropagation();
+    var btn = form.querySelector('[type="submit"]');
+    if (!btn) return;
+    var originalText = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    var getData = function(n) { var el = form.querySelector('[name=' + n + ']'); return el ? el.value : ''; };
+    var payload = {
+      name: getData('name'),
+      phone: getData('phone'),
+      email: getData('email'),
+      service: getData('service') || 'General',
+      address: getData('address'),
+      details: getData('details')
+    };
+    var fd = new FormData(form);
+    Promise.all([
+      fetch('https://formspree.io/f/mlgqryqz', { method: 'POST', headers: { 'Accept': 'application/json' }, body: fd }),
+      fetch('/api/crm-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(function(){})
+    ]).then(function(results) {
+      if (results[0] && results[0].ok) {
+        btn.textContent = 'Sent!';
+        form.reset();
+        setTimeout(function() { btn.textContent = originalText; btn.disabled = false; }, 3000);
+      } else {
+        btn.textContent = 'Error — try again';
+        btn.disabled = false;
+      }
+    }).catch(function() {
+      btn.textContent = 'Error — try again';
+      btn.disabled = false;
+    });
+  }
+  document.addEventListener('submit', handleEstimateSubmit, true);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   const _nb = document.querySelector('.navbar'); if (_nb) document.documentElement.style.setProperty('--nav-top', _nb.offsetHeight + 'px');
   const menuButton = document.querySelector('.mobile-toggle');
@@ -16,47 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
-  document.addEventListener('submit', function(event) {
-    var form = event.target;
-    if (!form.hasAttribute('data-demo')) return;
-    event.preventDefault();
-    var btn = form.querySelector('[type="submit"]');
-    var originalText = btn.textContent;
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-    var name = form.querySelector('[name=name]') ? form.querySelector('[name=name]').value : '';
-    var phone = form.querySelector('[name=phone]') ? form.querySelector('[name=phone]').value : '';
-    var email = form.querySelector('[name=email]') ? form.querySelector('[name=email]').value : '';
-    var service = form.querySelector('[name=service]') ? form.querySelector('[name=service]').value : 'General';
-    var address = form.querySelector('[name=address]') ? form.querySelector('[name=address]').value : '';
-    var details = form.querySelector('[name=details]') ? form.querySelector('[name=details]').value : '';
-    Promise.all([
-      fetch('https://formspree.io/f/mlgqryqz', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(form)
-      }),
-      fetch('/api/crm-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, phone: phone, email: email, service: service, address: address, details: details })
-      }).catch(function(){})
-    ]).then(function(responses) {
-      var res = responses[0];
-      if (res.ok) {
-        btn.textContent = 'Sent!';
-        form.reset();
-        setTimeout(function() { btn.textContent = originalText; btn.disabled = false; }, 3000);
-      } else {
-        btn.textContent = 'Error — try again';
-        btn.disabled = false;
-      }
-    }).catch(function() {
-      btn.textContent = 'Error — try again';
-      btn.disabled = false;
-    });
-  });
 
   const filters = [...document.querySelectorAll('.filter-btn')];
   const cards = [...document.querySelectorAll('.portfolio-card')];
