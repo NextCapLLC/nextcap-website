@@ -31,18 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Accept': 'application/json' },
             body: new FormData(form)
           }),
-          fetch('https://55d03448-7ecb-41b5-88ff-4b4adfc74d27-00-2lj3a77ioslqd.kirk.replit.dev/api/leads', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+          (async function submitToCRM(retries) {
+            const crmData = {
               name: form.querySelector('[name=name]')?.value || '',
               phone: form.querySelector('[name=phone]')?.value || '',
               email: form.querySelector('[name=email]')?.value || '',
               service: form.querySelector('[name=service]')?.value || 'General',
               address: form.querySelector('[name=address]')?.value || '',
               details: form.querySelector('[name=details]')?.value || ''
-            })
-          }).catch(() => {})
+            };
+            for (let i = 0; i < retries; i++) {
+              try {
+                const r = await fetch('https://55d03448-7ecb-41b5-88ff-4b4adfc74d27-00-2lj3a77ioslqd.kirk.replit.dev/api/leads', {
+                  method: 'POST', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(crmData),
+                  signal: AbortSignal.timeout(8000)
+                });
+                if (r.ok) break;
+              } catch(e) {
+                if (i < retries - 1) await new Promise(res => setTimeout(res, 3000));
+              }
+            }
+          })(3)
         ]);
         if (res.ok) {
           btn.textContent = 'Sent!';
