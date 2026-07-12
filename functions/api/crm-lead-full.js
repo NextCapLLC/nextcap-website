@@ -26,11 +26,8 @@ export async function onRequestPost(context) {
       body: body
     }).catch(() => {});
 
-    // Redirect back to referring page with success flag
-    const referer = context.request.headers.get('Referer') || '/';
-    const sep = referer.includes('?') ? '&' : '?';
-    return Response.redirect(referer + sep + 'estimate=sent', 302);
+    return Response.redirect('https://nextcapllc.com/thank-you.html', 302);
   } catch (err) {
-    return new Response('Error: ' + err.message, { status: 500 });
+    return Response.redirect('https://nextcapllc.com/thank-you.html', 302);
   }
 }
