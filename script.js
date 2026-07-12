@@ -40,6 +40,17 @@
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Show thank-you toast if redirected back after submission
+  if (window.location.search.includes('estimate=sent')) {
+    var toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;padding:14px 28px;border-radius:8px;font-size:1rem;font-weight:600;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,.3)';
+    toast.textContent = '✓ Estimate request sent! We'll be in touch shortly.';
+    document.body.appendChild(toast);
+    setTimeout(function(){ toast.remove(); }, 6000);
+    history.replaceState({}, '', window.location.pathname);
+  }
+
+
   const _nb = document.querySelector('.navbar'); if (_nb) document.documentElement.style.setProperty('--nav-top', _nb.offsetHeight + 'px');
   const menuButton = document.querySelector('.mobile-toggle');
   const nav = document.querySelector('.navlinks');
@@ -103,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '<button class="modal-close" aria-label="Close">&times;</button>',
       '<h2>Get a Free Estimate</h2>',
       '<p>Tell us about your project and we\'ll follow up quickly.</p>',
-      '<form class="form" data-demo>',
+      '<form class="form" data-modal-form action="/api/crm-lead-full" method="post">',
       '<div class="grid two">',
       '<div><label for="m-name">Full name</label><input id="m-name" name="name" placeholder="Your name" required></div>',
       '<div><label for="m-phone">Phone number</label><input id="m-phone" name="phone" placeholder="(304) 555-1234" required></div>',
