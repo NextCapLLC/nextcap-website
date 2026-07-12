@@ -1,36 +1,36 @@
 export async function onRequestPost(context) {
   try {
-    var formData = await context.request.formData();
-    var payload = {
-      name: formData.get('name') || '',
-      phone: formData.get('phone') || '',
-      email: formData.get('email') || '',
-      service: formData.get('service') || 'General',
-      address: formData.get('address') || '',
-      details: formData.get('details') || ''
+    const body = await context.request.text();
+    const params = new URLSearchParams(body);
+    const get = (k) => params.get(k) || '';
+    const payload = {
+      name: get('name'),
+      phone: get('phone'),
+      email: get('email'),
+      service: get('service') || 'General',
+      address: get('address'),
+      details: get('details')
     };
 
-    // Send to CRM
+    // Save to CRM
     await fetch('https://55d03448-7ecb-41b5-88ff-4b4adfc74d27-00-2lj3a77ioslqd.kirk.replit.dev/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).catch(function(){});
+    }).catch(() => {});
 
-    // Send to Formspree
-    var fd = new FormData();
-    Object.keys(payload).forEach(function(k) { fd.append(k, payload[k]); });
+    // Forward to Formspree
     await fetch('https://formspree.io/f/mlgqryqz', {
       method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: fd
-    }).catch(function(){});
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+      body: body
+    }).catch(() => {});
 
-    // Redirect back with success flag
-    var referer = context.request.headers.get('Referer') || '/';
-    var sep = referer.includes('?') ? '&' : '?';
+    // Redirect back to referring page with success flag
+    const referer = context.request.headers.get('Referer') || '/';
+    const sep = referer.includes('?') ? '&' : '?';
     return Response.redirect(referer + sep + 'estimate=sent', 302);
-  } catch(e) {
-    return Response.redirect('/?estimate=error', 302);
+  } catch (err) {
+    return new Response('Error: ' + err.message, { status: 500 });
   }
 }
