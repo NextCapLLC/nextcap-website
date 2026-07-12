@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Accept': 'application/json' },
             body: new FormData(form)
           }),
-          fetch('', {
+          fetch('https://55d03448-7ecb-41b5-88ff-4b4adfc74d27-00-2lj3a77ioslqd.kirk.replit.dev/api/leads', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
