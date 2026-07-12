@@ -18,10 +18,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelectorAll('form[data-demo]').forEach((form) => {
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      alert('Thank you. Your request is ready to send once website email hosting is connected to info@nextcapllc.com.');
-      form.reset();
+      const btn = form.querySelector('[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      try {
+        const res = await fetch('https://formspree.io/f/mlgqryqz', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+        if (res.ok) {
+          btn.textContent = 'Sent!';
+          form.reset();
+          setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+        } else {
+          btn.textContent = 'Error — try again';
+          btn.disabled = false;
+        }
+      } catch(e) {
+        btn.textContent = 'Error — try again';
+        btn.disabled = false;
+      }
     });
   });
 
