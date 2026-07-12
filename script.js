@@ -40,6 +40,15 @@
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.search.includes('estimate=sent')) {
+    var t = document.createElement('div');
+    t.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:600;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,.3)';
+    t.textContent = String.fromCharCode(10003) + ' Estimate request sent! We will be in touch shortly.';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); }, 6000);
+    history.replaceState({}, '', window.location.pathname);
+  }
+
   // Show thank-you toast if redirected back after submission
   if (window.location.search.includes('estimate=sent')) {
     var toast = document.createElement('div');
